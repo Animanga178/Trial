@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Water
   - Frog
+  - LogSpawnPoint
   layers:
   - Default
   - TransparentFX
