@@ -6,15 +6,21 @@ public class SpawnPoint : MonoBehaviour
     public float minSpacing = 2f;
     public float nextSpawnTime = 0f;
 
-    public Vector2 direction = Vector2.right;
+    public enum Direction { left, right };
+    public Direction direction;
     public GameObject lastSpawnedObstacle;
     public float laneSpeed = 10f;
 
-    public LogSpawner logSpawner;
+    public SpawnPointManager spawnPointManager;
+
+    private void Start()
+    {
+        spawnPointManager = SpawnPointManager.Instance;
+    }
 
     private void Update()
     {
-        if (Time.time >= nextSpawnTime)
+        if (nextSpawnTime <= Time.time)
         {
             if (CanSpawn())
             {
@@ -40,17 +46,25 @@ public class SpawnPoint : MonoBehaviour
 
     private void SpawnObstacle()
     {
-        GameObject selectedPrefab = logSpawner.GetRandomLogPrefab();
+        GameObject selectedPrefab = spawnPointManager.GetRandomPrefab(SpawnPointManager.ObstacleType.Log);
         GameObject newObstacle = Instantiate(selectedPrefab, transform.position, Quaternion.identity);
 
         ObstacleMovement movement = newObstacle.GetComponent<ObstacleMovement>();
 
+
         if (movement != null)
         {
-            movement.direction = direction;
+            switch (direction)
+            {
+                case Direction.left:
+                    movement.direction = Vector2.left;
+                    break;
+                case Direction.right:
+                    movement.direction = Vector2.right;
+                    break;
+            }
             movement.speed = laneSpeed;
         }
-
         lastSpawnedObstacle = newObstacle;
     }
 }

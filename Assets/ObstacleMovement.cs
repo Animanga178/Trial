@@ -3,22 +3,31 @@ using UnityEngine;
 public class ObstacleMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public Vector2 direction = Vector2.right;
+    public Vector2 direction;
     public float speed = 10f;
-    public float lifeTime = 50f;
+    public float lifeTime = 500f;
 
     private void Start()
     {
         if (rb == null)
+        {
             rb = GetComponent<Rigidbody2D>();
+            if (rb == null)
+            {
+                Debug.Log("Rigidbody2D component is missing from " + gameObject.name);
+            }
+        }
 
-        rb.position = rb.position;
+        rb.position = transform.position;
 
         Destroy(gameObject, lifeTime);
     }
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+        if (rb != null)
+        {
+            rb.linearVelocity = direction * speed;
+        }
     }
 }

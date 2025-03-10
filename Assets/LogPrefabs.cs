@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LogSpawner : MonoBehaviour
+public class LogPrefabs : MonoBehaviour
 {
-    public List<GameObject> logPrefabs;
+    public GameObject[] logPrefabs;
 
     public GameObject GetRandomLogPrefab()
     {
-        if (logPrefabs == null || logPrefabs.Count == 0)
+        if (logPrefabs == null || logPrefabs.Length == 0)
         {
             Debug.LogWarning("No log prefabs assigned in LogSpawner on " + gameObject.name);
-            return null; 
+            return null;
         }
-        int index = Random.Range(0, logPrefabs.Count);
+        int index = Random.Range(0, logPrefabs.Length);
         return logPrefabs[index];
 
     }
