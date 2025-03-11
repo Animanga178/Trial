@@ -6,6 +6,7 @@ public class ObstacleMovement : MonoBehaviour
     public Vector2 direction;
     public float speed = 10f;
     public float lifeTime = 500f;
+    public bool isMoving = false;
 
     private void Start()
     {

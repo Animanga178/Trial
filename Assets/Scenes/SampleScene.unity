@@ -1179,7 +1179,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3106694044306482347, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3106694044306482347, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1222,6 +1222,14 @@ PrefabInstance:
       value: SpawnPoint_Logs3
       objectReference: {fileID: 0}
     - target: {fileID: 7963096426662855762, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
+      propertyPath: direction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963096426662855762, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
+      propertyPath: laneSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963096426662855762, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
       propertyPath: logSpawner
       value: 
       objectReference: {fileID: 0}
@@ -1233,6 +1241,10 @@ PrefabInstance:
       propertyPath: direction.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7963096426662855762, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
+      propertyPath: spawnPointManager
+      value: 
+      objectReference: {fileID: 1455856717}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3067,7 +3079,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3106694044306482347, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 3106694044306482347, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3125,6 +3137,10 @@ PrefabInstance:
       propertyPath: direction.x
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7963096426662855762, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
+      propertyPath: spawnPointManager
+      value: 
+      objectReference: {fileID: 1455856717}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3164,6 +3180,7 @@ MonoBehaviour:
   direction: {x: 1, y: 0}
   speed: 2
   lifeTime: 5
+  isMoving: 0
 --- !u!4 &2062604287
 Transform:
   m_ObjectHideFlags: 0
@@ -3216,7 +3233,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3106694044306482347, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3106694044306482347, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3267,6 +3284,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7963096426662855762, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
+      propertyPath: laneSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963096426662855762, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
       propertyPath: logSpawner
       value: 
       objectReference: {fileID: 0}
@@ -3278,6 +3299,10 @@ PrefabInstance:
       propertyPath: direction.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7963096426662855762, guid: 2dae54fae9541ab4b98d49796c0018c6, type: 3}
+      propertyPath: spawnPointManager
+      value: 
+      objectReference: {fileID: 1455856717}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

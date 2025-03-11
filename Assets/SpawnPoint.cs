@@ -16,6 +16,8 @@ public class SpawnPoint : MonoBehaviour
     private void Start()
     {
         spawnPointManager = SpawnPointManager.Instance;
+
+        direction = (transform.position.x > 0) ? Direction.left : Direction.right;
     }
 
     private void Update()
@@ -54,15 +56,7 @@ public class SpawnPoint : MonoBehaviour
 
         if (movement != null)
         {
-            switch (direction)
-            {
-                case Direction.left:
-                    movement.direction = Vector2.left;
-                    break;
-                case Direction.right:
-                    movement.direction = Vector2.right;
-                    break;
-            }
+            movement.direction = (direction == Direction.right) ? Vector2.right : Vector2.left;
             movement.speed = laneSpeed;
         }
         lastSpawnedObstacle = newObstacle;
