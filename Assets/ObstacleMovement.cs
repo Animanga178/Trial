@@ -5,8 +5,7 @@ public class ObstacleMovement : MonoBehaviour
     public Rigidbody2D rb;
     public Vector2 direction;
     public float speed = 10f;
-    public float lifeTime = 500f;
-    public bool isMoving = false;
+    [SerializeField] private float lifeTime = 5f;
 
     private void Start()
     {
@@ -18,7 +17,6 @@ public class ObstacleMovement : MonoBehaviour
                 Debug.Log("Rigidbody2D component is missing from " + gameObject.name);
             }
         }
-
         rb.position = transform.position;
 
         Destroy(gameObject, lifeTime);

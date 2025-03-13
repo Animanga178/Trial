@@ -6,7 +6,7 @@ public class SpawnPointManager : MonoBehaviour
 {
     public static SpawnPointManager Instance { get; private set; }
 
-    public enum ObstacleType { Log }
+    public enum ObstacleType { Log, Car }
 
     [Serializable]
     public class ObstaclePrefab
@@ -35,12 +35,6 @@ public class SpawnPointManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        // Initalise dictionaries
-        obstaclePrefabs.Add(new ObstaclePrefab { type = ObstacleType.Log, prefabs = new List<GameObject>() });
-
-        // Accessing spawn point by obstacle type
-        spawnPointConfigs.Add(new SpawnPointConfig { type = ObstacleType.Log, gameObjects = new List<GameObject>() });
     }
 
     public GameObject GetRandomPrefab(ObstacleType type)
@@ -56,19 +50,3 @@ public class SpawnPointManager : MonoBehaviour
         return prefab.prefabs[index];
     }
 }
-
-public class LogSpawner : MonoBehaviour
-{
-    private SpawnPointManager spawnPointManager;
-
-    private void Start()
-    {
-        spawnPointManager = SpawnPointManager.Instance;
-    }
-
-    public GameObject SpawnObstacle()
-    {
-        return spawnPointManager.GetRandomPrefab(SpawnPointManager.ObstacleType.Log);
-    }
-}
-
