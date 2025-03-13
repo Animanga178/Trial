@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Manage spawn points and obstacle prefabs
 public class SpawnPointManager : MonoBehaviour
 {
+    // Singleton instance of the SpawnPointManager
     public static SpawnPointManager Instance { get; private set; }
 
     public enum ObstacleType { Log, Car }
@@ -19,6 +21,7 @@ public class SpawnPointManager : MonoBehaviour
     public class SpawnPointConfig
     {
         public ObstacleType type;
+        // List of game objects for the spawn point
         public List<GameObject> gameObjects;
     }
 
@@ -37,8 +40,10 @@ public class SpawnPointManager : MonoBehaviour
         }
     }
 
+    // Returns a random prefab for the specified obstacle type
     public GameObject GetRandomPrefab(ObstacleType type)
     {
+        // Find the obstacle prefab for the specified type
         ObstaclePrefab prefab = obstaclePrefabs.Find(p => p.type == type);
         if (prefab == null || prefab.prefabs.Count == 0)
         {

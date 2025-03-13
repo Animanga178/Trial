@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Controls the movement of the obstacle
 public class ObstacleMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
