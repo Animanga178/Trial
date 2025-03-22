@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 direction = Vector2.zero;
     private Rigidbody2D rb;
     private InputAction moveAction;
+    private bool isCollidingWithBarrier = false;
+    //private float movementDistance = 1f;
+    //private float scaledVelocity;
+    //private Vector2 previousPosition;
 
     private void Awake()
     {
@@ -16,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        //scaledVelocity = movementDistance / timeStep;
         moveAction = InputSystem.actions.FindAction("Move");
     }
 
@@ -30,28 +35,52 @@ public class PlayerController : MonoBehaviour
         else if (newDirection != direction)
         {
             direction = newDirection;
-            Debug.Log("New direction: " + newDirection);
         }
 
         timeSinceLastStep += Time.deltaTime;
 
         if (timeSinceLastStep >= timeStep && direction != Vector2.zero)
         {
-            Debug.Log("Loop initiates");
-
             timeSinceLastStep = 0f;
             Move(direction);
-            Debug.Log("Move done: " + rb.position.ToString());
         }
         else
         {
-            Debug.Log("Vector is 0 again");
             rb.linearVelocity = Vector2.zero;
         }
     }
 
     public void Move(Vector2 direction)
     {
-        rb.position += new Vector2(direction.x, direction.y);
+        if (!isCollidingWithBarrier)
+        {
+            rb.position += new Vector2(direction.x, direction.y);
+            // Is it worth using velocity if rb.position workd
+            //direction = direction.normalized;
+            //rb.linearVelocity = direction * movementDistance / Time.deltaTime * time;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Barrier"))
+        {
+            isCollidingWithBarrier = true;
+        }
+        else
+        {
+            isCollidingWithBarrier = false;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Barrier"))
+        {
+            isCollidingWithBarrier = false;
+
+            Vector2 popOutDirection = collision.transform.position.x < 0 ? Vector2.right : Vector2.left;
+            rb.position += popOutDirection;
+        }
     }
 }
