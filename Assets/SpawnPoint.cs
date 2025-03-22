@@ -75,7 +75,7 @@ public class SpawnPoint : MonoBehaviour
             movement.direction = (direction == Direction.right) ? Vector2.right : Vector2.left;
             movement.speed = laneSpeed;
 
-            // If the obstacle is moving left, than it is flipped
+            // If the obstacle is moving left, then it is flipped
             if (movement.direction == Vector2.left) 
             {
                 newObstacle.transform.localRotation = Quaternion.Euler(0, 180, 0);

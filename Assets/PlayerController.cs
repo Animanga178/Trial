@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private InputAction moveAction;
     private bool isCollidingWithBarrier = false;
+    private bool isCollidingWithPlatform = false;
+
     //private float movementDistance = 1f;
     //private float scaledVelocity;
     //private Vector2 previousPosition;
@@ -52,35 +54,41 @@ public class PlayerController : MonoBehaviour
 
     public void Move(Vector2 direction)
     {
-        if (!isCollidingWithBarrier)
+        if (isCollidingWithBarrier)
+        {
+            Vector2 popOutDirection = rb.position.x < 0 ? Vector2.right : Vector2.left;
+            rb.position += popOutDirection;
+        }
+        else
         {
             rb.position += new Vector2(direction.x, direction.y);
-            // Is it worth using velocity if rb.position workd
-            //direction = direction.normalized;
-            //rb.linearVelocity = direction * movementDistance / Time.deltaTime * time;
+        }
+
+        if (isCollidingWithPlatform)
+        {
+            transform.SetParent(gameObject.transform);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Barrier"))
+        isCollidingWithBarrier = (collision.gameObject.layer == LayerMask.NameToLayer("Barrier"));
+        isCollidingWithPlatform = (collision.gameObject.layer == LayerMask.NameToLayer("Platform"));
+
+        if (isCollidingWithPlatform)
         {
-            isCollidingWithBarrier = true;
-        }
-        else
-        {
-            isCollidingWithBarrier = false;
+            transform.SetParent(collision.transform);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Barrier"))
-        {
-            isCollidingWithBarrier = false;
+        isCollidingWithBarrier = false;
+        isCollidingWithPlatform = false;
 
-            Vector2 popOutDirection = collision.transform.position.x < 0 ? Vector2.right : Vector2.left;
-            rb.position += popOutDirection;
+        if (isCollidingWithPlatform)
+        {
+            transform.SetParent(null);
         }
     }
 }

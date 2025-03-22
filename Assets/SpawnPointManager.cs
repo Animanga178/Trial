@@ -37,6 +37,7 @@ public class SpawnPointManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
 

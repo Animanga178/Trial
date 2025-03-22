@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3438452886775496775}
   - component: {fileID: 9092419667026510412}
   - component: {fileID: 5592040819276795745}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Log2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -126,7 +126,6 @@ MonoBehaviour:
   direction: {x: 1, y: 0}
   speed: 6
   lifeTime: 5
-  isMoving: 0
 --- !u!1 &4419105071912950309
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4712009568661790018}
   - component: {fileID: 7324809911625380845}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sheet_216
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3846230980949261416}
   - component: {fileID: 740899161846360514}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sheet_217
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8447346498836922529}
   - component: {fileID: 3091139988151270988}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sheet_215
   m_TagString: Untagged
   m_Icon: {fileID: 0}
