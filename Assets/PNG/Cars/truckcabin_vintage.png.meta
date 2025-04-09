@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      truckcabin_vintage_0: 2197770066348094404
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

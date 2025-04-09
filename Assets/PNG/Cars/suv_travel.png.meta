@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      suv_travel_0: 5817398322412419696
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

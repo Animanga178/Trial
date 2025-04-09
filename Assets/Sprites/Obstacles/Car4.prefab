@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2919656304135330660}
   - component: {fileID: 560363693339016073}
   - component: {fileID: 7546463470295069340}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Car4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,11 +120,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.000000029802322, y: -0.0057985783}
+  m_Offset: {x: 0, y: 0.008220762}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.413657, y: 0.5579854}
+  m_Size: {x: 1.3077338, y: 0.44271588}
   m_EdgeRadius: 0
 --- !u!114 &560363693339016073
 MonoBehaviour:
@@ -151,7 +151,6 @@ MonoBehaviour:
   rb: {fileID: 7546463470295069340}
   direction: {x: 0, y: 0}
   speed: 10
-  lifeTime: 5
 --- !u!50 &7546463470295069340
 Rigidbody2D:
   serializedVersion: 5

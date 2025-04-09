@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      suv_military_0: -5027811931667976894
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

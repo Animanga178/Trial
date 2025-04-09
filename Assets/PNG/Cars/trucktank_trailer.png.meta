@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      trucktank_trailer_0: -2214067194157275892
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      firetruck_0: -347627570514976070
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

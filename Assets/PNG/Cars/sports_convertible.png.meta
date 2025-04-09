@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      sports_convertible_0: 1477072015760514184
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
