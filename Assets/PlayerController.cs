@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 
-//public enum PlayerState { Idle, Leaping, Dead }
+public enum PlayerState { Idle, Leap, Dead }
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,16 +21,15 @@ public class PlayerController : MonoBehaviour
     // State variables
     private Vector3 spawnPosition;
     private Vector2 direction = Vector2.zero;
-    private Vector2 lastPosition;
     private float timeSinceLastStep = 0f;
     private float furthestRow;
     public static LayerMask barrierLayer;
     private bool isCollidingWithBarrier = false;
     private bool isCollidingWithPlatform = false;
     private bool isCollidingWithObstacle = false;
-    private bool hasDiedFromBounds = true;
+    private bool isCollidingWithWater = false;
     private bool isInWater = false;
-    //private PlayerState currentState;
+    private PlayerState currentState;
 
     private void Awake()
     {
@@ -59,6 +58,17 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        switch (currentState)
+        {
+            case PlayerState.Idle:
+                HandleIdleState();
+                CheckOutOfBounds();
+                break;
+        }
+    }
+
+    private void HandleIdleState()
+    {
         Vector2 newDirection = moveAction.ReadValue<Vector2>();
 
         // Normalize diagonal movement
@@ -80,7 +90,6 @@ public class PlayerController : MonoBehaviour
 
         // Update movement
         timeSinceLastStep += Time.deltaTime;
-        float buffer = 0.1f;
 
         if (timeSinceLastStep >= timeStep && direction != Vector2.zero)
         {
@@ -93,19 +102,24 @@ public class PlayerController : MonoBehaviour
 
             Move(direction);
         }
-         
-        if (!hasDiedFromBounds)
+    }
+
+    private void CheckOutOfBounds()
+    {
+        float buffer = 0.1f;
+
+        if (transform.position.x < cameraController.LeftEdge - buffer ||
+            transform.position.x > cameraController.RightEdge + buffer)
         {
-            if (transform.position.x < cameraController.LeftEdge - buffer || transform.position.x > cameraController.RightEdge + buffer)
-            {
-                hasDiedFromBounds = true;
-                Death();
-            }
+            Death("Out of bounds");
         }
     }
 
+
     public void Move(Vector2 direction)
     {
+        if (currentState != PlayerState.Idle) return;
+
         if (isCollidingWithBarrier)
         {
             PopOutDirection();
@@ -151,6 +165,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Leap(Vector2 direction)
     {
         // Trigger leap animation
+        currentState = PlayerState.Leap;
         animator.SetTrigger("Leap");
 
         Vector3 destination = rb.position + new Vector2(direction.x, direction.y);
@@ -169,8 +184,11 @@ public class PlayerController : MonoBehaviour
 
         if (isInWater && rb.linearVelocity.x == 0)
         {
-            Debug.Log("Player landed in water after leap");
-            Death();
+            Death("Water");
+        }
+        else
+        {
+            currentState = PlayerState.Idle;
         }
     }
 
@@ -184,40 +202,43 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool IsLayer(Collider2D collider, string layerName)
+    {
+        return collider.gameObject.layer == LayerMask.NameToLayer(layerName);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        isCollidingWithBarrier = (collision.gameObject.layer == LayerMask.NameToLayer("Barrier"));
-        isCollidingWithPlatform = (collision.gameObject.layer == LayerMask.NameToLayer("Platform"));
-        isCollidingWithObstacle = (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"));
+        isCollidingWithBarrier = IsLayer(collision, "Barrier");
+        isCollidingWithPlatform = IsLayer(collision, "Platform");
+        isCollidingWithObstacle = IsLayer(collision, "Obstacle");
+        isCollidingWithWater = IsLayer(collision, "Water");
 
         if (isCollidingWithPlatform)
         {
-            Debug.Log("Player is on top of Platform");
             obstacleRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
         }
 
-        Debug.Log("Player collided with: " + collision.gameObject.name);
-        // TODO: set players position to old position
-
         if (isCollidingWithObstacle)
         {
-            Death();
+            Death("Obstacle");
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Water"))
+        if (isCollidingWithWater)
         {
             isInWater = true;
         }
+        Debug.Log("Player collided with: " + collision.gameObject.name);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+        if (IsLayer(collision, "Platform"))
         {
             obstacleRigidbody = null;
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Water"))
+        if (IsLayer(collision, "Water"))
         {
             isInWater = false;
         }
@@ -225,12 +246,17 @@ public class PlayerController : MonoBehaviour
         isCollidingWithBarrier = false;
         isCollidingWithPlatform = false;
         isCollidingWithObstacle = false;
+        isCollidingWithWater = false;
     }
 
-    public void Death()
+    public void Death(string cause)
     {
+        if (currentState == PlayerState.Dead) return;
+
+        Debug.Log("Player died from: " + cause);
         StopAllCoroutines();
         animator.SetTrigger("Death");
+        currentState = PlayerState.Dead;
 
         GameManager.Instance.PlayerDeath();
     }
@@ -241,10 +267,6 @@ public class PlayerController : MonoBehaviour
         transform.position = spawnPosition;
         furthestRow = spawnPosition.y;
         gameObject.SetActive(true);
+        currentState = PlayerState.Idle;
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    Debug.Log("Player is colliding with: " + collision.collider.name);
-    //}
 }

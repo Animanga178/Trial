@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
             timeText.text = time.ToString();
         }
 
-        player.Death();
+        player.Death("Out of time");
     }
 
     public void MovedUp()
