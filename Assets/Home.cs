@@ -14,13 +14,11 @@ public class Home : MonoBehaviour
     private void OnEnable()
     {
         homePlayer.SetActive(true);
-        //boxCollider.enabled = false;
     }
 
     private void OnDisable()
     {
         homePlayer.SetActive(false);
-        //boxCollider.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
