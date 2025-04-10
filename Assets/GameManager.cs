@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -39,6 +38,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         NewGame();
+        player.ActivateInvincibility(7);
+        player.ActivateFreeze(10f);
     }
 
     private void NewGame()
@@ -63,10 +64,10 @@ public class GameManager : MonoBehaviour
     {
         player.Respawn();
         StopAllCoroutines();
-        StartCoroutine(Timer(30));
+        StartCoroutine(SetTimer(30));
     }
 
-    private IEnumerator Timer(int duration)
+    private IEnumerator SetTimer(int duration)
     {
         time = duration;
         timeText.text = time.ToString();
@@ -80,6 +81,12 @@ public class GameManager : MonoBehaviour
         }
 
         player.Death("Out of time");
+    }
+
+    public void AddTime(int amount)
+    {
+        time += amount;
+        timeText.text = time.ToString();
     }
 
     public void MovedUp()
@@ -131,7 +138,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
-    private void SetLives(int lives)
+    public void SetLives(int lives)
     {
         this.lives = lives;
         livesText.text = lives.ToString();

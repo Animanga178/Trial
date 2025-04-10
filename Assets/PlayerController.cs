@@ -29,7 +29,9 @@ public class PlayerController : MonoBehaviour
     private bool isCollidingWithObstacle = false;
     private bool isCollidingWithWater = false;
     private bool isInWater = false;
+    private bool isInvincible = false;
     private PlayerState currentState;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
@@ -37,13 +39,70 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         barrierLayer = LayerMask.GetMask("Barrier");
         spawnPosition = transform.position;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         cameraController = GameObject.FindFirstObjectByType<CameraController>();
+        Transition(PlayerState.Idle);
     }
+
+    public void ActivateFreeze(float duration)
+    {
+        StartCoroutine(FreezeCoroutine(duration));
+    }
+
+    private IEnumerator FreezeCoroutine(float duration)
+    {
+        int onWater = LayerMask.NameToLayer("Water");
+        Freezable[] allFreezables = FindObjectsByType<Freezable>(FindObjectsSortMode.None);
+
+        foreach (var f in allFreezables)
+        {
+            if (f.gameObject.layer == onWater)
+            {
+                f.Freeze();
+            }
+        }
+        yield return new WaitForSeconds(duration);
+
+        foreach (var f in allFreezables)
+        {
+            if (f.gameObject.layer == onWater)
+            {
+                f.Unfreeze();
+            }
+        }
+
+    }
+
+    public void ActivateInvincibility(float duration)
+    {
+        if (!isInvincible)
+        {
+            StartCoroutine(InvincibilityCoroutine(duration));
+        }
+    }
+
+    public IEnumerator InvincibilityCoroutine(float duration)
+    {
+        isInvincible = true;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            spriteRenderer.color = Color.magenta;
+            yield return new WaitForSeconds(0.2f);
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.2f);
+            elapsed += 0.4f;
+        }
+        isInvincible = false;
+        spriteRenderer.color = Color.white;
+    }
+
     private void FixedUpdate()
     {
         if (isCollidingWithPlatform && obstacleRigidbody != null)
@@ -64,7 +123,7 @@ public class PlayerController : MonoBehaviour
                 HandleIdleState();
                 CheckOutOfBounds();
                 break;
-        }
+        }   
     }
 
     private void HandleIdleState()
@@ -115,10 +174,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     public void Move(Vector2 direction)
     {
-        if (currentState != PlayerState.Idle) return;
+        if (currentState == PlayerState.Dead || currentState == PlayerState.Leap) return;
 
         if (isCollidingWithBarrier)
         {
@@ -165,7 +223,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Leap(Vector2 direction)
     {
         // Trigger leap animation
-        currentState = PlayerState.Leap;
+        Transition(PlayerState.Leap);
         animator.SetTrigger("Leap");
 
         Vector3 destination = rb.position + new Vector2(direction.x, direction.y);
@@ -188,8 +246,13 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            currentState = PlayerState.Idle;
+            Transition(PlayerState.Idle);
         }
+    }
+
+    private void Transition(PlayerState newState)
+    {
+        currentState = newState;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -251,12 +314,15 @@ public class PlayerController : MonoBehaviour
 
     public void Death(string cause)
     {
-        if (currentState == PlayerState.Dead) return;
+        Debug.Log($"Trying to kill player from '{cause}' with currentState = {currentState}");
 
+        if (currentState == PlayerState.Dead || isInvincible) return;
+
+        Debug.Log("Death prevented due to state: " + currentState);
         Debug.Log("Player died from: " + cause);
         StopAllCoroutines();
         animator.SetTrigger("Death");
-        currentState = PlayerState.Dead;
+        Transition(PlayerState.Dead);
 
         GameManager.Instance.PlayerDeath();
     }
@@ -267,6 +333,6 @@ public class PlayerController : MonoBehaviour
         transform.position = spawnPosition;
         furthestRow = spawnPosition.y;
         gameObject.SetActive(true);
-        currentState = PlayerState.Idle;
+        Transition(PlayerState.Idle);
     }
 }

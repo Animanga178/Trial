@@ -21,8 +21,6 @@ public class ObstacleMovement : MonoBehaviour
         {
             return;
         }
-        //Vector2 targetPosition = (Vector2)transform.position + direction * speed * Time.deltaTime;
-        //rb.MovePosition(targetPosition);
         rb.linearVelocity = direction * speed;
 
         CheckForBarrierCollision(collider);
