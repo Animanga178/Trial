@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public enum PlayerState { Idle, Leap, Dead }
 
@@ -49,71 +50,49 @@ public class PlayerController : MonoBehaviour
         Transition(PlayerState.Idle);
     }
 
-    public void ActivateFreeze(float duration)
+    public void SetInvincibility(bool value)
     {
-        StartCoroutine(FreezeCoroutine(duration));
-    }
-
-    private IEnumerator FreezeCoroutine(float duration)
-    {
-        int onWater = LayerMask.NameToLayer("Water");
-        Freezable[] allFreezables = FindObjectsByType<Freezable>(FindObjectsSortMode.None);
-
-        foreach (var f in allFreezables)
-        {
-            if (f.gameObject.layer == onWater)
-            {
-                f.Freeze();
-            }
-        }
-        yield return new WaitForSeconds(duration);
-
-        foreach (var f in allFreezables)
-        {
-            if (f.gameObject.layer == onWater)
-            {
-                f.Unfreeze();
-            }
-        }
-
-    }
-
-    public void ActivateInvincibility(float duration)
-    {
-        if (!isInvincible)
-        {
-            StartCoroutine(InvincibilityCoroutine(duration));
-        }
-    }
-
-    public IEnumerator InvincibilityCoroutine(float duration)
-    {
-        isInvincible = true;
-
-        float elapsed = 0f;
-        while (elapsed < duration)
-        {
-            spriteRenderer.color = Color.magenta;
-            yield return new WaitForSeconds(0.2f);
-            spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(0.2f);
-            elapsed += 0.4f;
-        }
-        isInvincible = false;
-        spriteRenderer.color = Color.white;
+        isInvincible = value;
     }
 
     private void FixedUpdate()
     {
         if (isCollidingWithPlatform && obstacleRigidbody != null)
         {
-            rb.linearVelocity = new Vector2(obstacleRigidbody.linearVelocity.x, rb.linearVelocity.y);
+            var movement = obstacleRigidbody.GetComponent<ObstacleMovement>();
+            bool isFrozen = movement != null && movement.GetIsFrozen();
+
+            rb.linearVelocity = isFrozen
+                ? new Vector2(0, rb.linearVelocity.y)
+                : new Vector2(obstacleRigidbody.linearVelocity.x, rb.linearVelocity.y);
+
+            if (isFrozen && isInWater)
+            {
+                return;
+            }
         }
-        else if (!isCollidingWithPlatform)
+
+        else
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+
+            //if (isInWater && !isCollidingWithPlatform && !isInvincible)
+            //{
+            //    Death("Water");
+            //}
         }
     }
+
+    //private bool IsInWater()
+    //{
+    //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.1f);
+    //    foreach (var hit in hits)
+    //    {
+    //        if (hit.CompareTag("Water")) return true;
+    //    }
+    //    return false;
+    //}
+
 
     private void Update()
     {
@@ -240,7 +219,9 @@ public class PlayerController : MonoBehaviour
 
         rb.position = destination;
 
-        if (isInWater && rb.linearVelocity.x == 0)
+        yield return new WaitForEndOfFrame();
+
+        if (isInWater && !isCollidingWithPlatform)
         {
             Death("Water");
         }
@@ -261,7 +242,11 @@ public class PlayerController : MonoBehaviour
         {
             obstacleRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
             isCollidingWithPlatform = true;
-            rb.linearVelocity = new Vector2(obstacleRigidbody.linearVelocity.x, rb.linearVelocity.y);
+            ObstacleMovement movement = obstacleRigidbody.GetComponent<ObstacleMovement>();
+            if (movement != null && movement.GetIsFrozen())
+            {
+                isInWater = false;
+            }
         }
     }
 
@@ -291,7 +276,6 @@ public class PlayerController : MonoBehaviour
         {
             isInWater = true;
         }
-        Debug.Log("Player collided with: " + collision.gameObject.name);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -306,20 +290,18 @@ public class PlayerController : MonoBehaviour
             isInWater = false;
         }
 
-        isCollidingWithBarrier = false;
         isCollidingWithPlatform = false;
+        isCollidingWithBarrier = false;
         isCollidingWithObstacle = false;
         isCollidingWithWater = false;
     }
 
     public void Death(string cause)
     {
-        Debug.Log($"Trying to kill player from '{cause}' with currentState = {currentState}");
-
         if (currentState == PlayerState.Dead || isInvincible) return;
 
-        Debug.Log("Death prevented due to state: " + currentState);
         Debug.Log("Player died from: " + cause);
+        GameManager.Instance.UnfreezeObstacles();
         StopAllCoroutines();
         animator.SetTrigger("Death");
         Transition(PlayerState.Dead);
@@ -329,6 +311,7 @@ public class PlayerController : MonoBehaviour
 
     public void Respawn()
     {
+        GameManager.Instance.UnfreezeObstacles();
         StopAllCoroutines();
         transform.position = spawnPosition;
         furthestRow = spawnPosition.y;

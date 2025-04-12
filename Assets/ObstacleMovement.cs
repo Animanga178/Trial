@@ -1,4 +1,3 @@
-using System.Threading;
 using UnityEngine;
 
 // Controls the movement of the obstacle
@@ -8,22 +7,48 @@ public class ObstacleMovement : MonoBehaviour
     public Vector2 direction;
     public float speed = 10f;
     private new BoxCollider2D collider;
+    private bool isFrozen = false;
+    public static bool GlobalFreeze = false;
+    private float originalSpeed;
+    private const float frozenSpeed = 0.001f;
 
     private void Start()
     {
         rb = rb ?? GetComponent<Rigidbody2D>();
-        collider = GetComponent<BoxCollider2D>();
+        collider = collider ?? GetComponent<BoxCollider2D>();
+        originalSpeed = speed;
     }
 
     private void FixedUpdate()
     {
-        if (rb == null || collider == null)
+        if (!isFrozen)
         {
-            return;
+            rb.linearVelocity = direction * speed;
+            CheckForBarrierCollision(collider);
         }
-        rb.linearVelocity = direction * speed;
+    }
 
-        CheckForBarrierCollision(collider);
+    public void Freeze()
+    {
+        if (!isFrozen)
+        {
+            isFrozen = true;
+            originalSpeed = speed;
+            speed = frozenSpeed;
+            rb.linearVelocity = direction * speed;
+            Debug.Log($"{gameObject.name} frozen");
+        }
+    }
+
+    public void Unfreeze()
+    {
+        if (isFrozen)
+        {
+            isFrozen = false;
+            speed = originalSpeed;
+            rb.linearVelocity = direction * speed;
+            Debug.Log($"{gameObject.name} unfrozen");
+        }
     }
 
     private void CheckForBarrierCollision(BoxCollider2D collider)
@@ -40,7 +65,6 @@ public class ObstacleMovement : MonoBehaviour
             if ((direction.x > 0 && lastEdge.x >= barrierPosition.x) ||
                 (direction.x < 0 && lastEdge.x <= barrierPosition.x))
             {
-                Debug.Log("Destroying obstacle");
                 Destroy(gameObject);
             }
         }
@@ -54,11 +78,13 @@ public class ObstacleMovement : MonoBehaviour
         return direction.x > 0 ? bottom_left : top_right;
     }
 
-    private void OnDrawGizmos()
+    public bool IsOnWater()
     {
-        Vector2 lastEdge = GetLastEdge(collider);
+        return CompareTag("OnWater");
+    }
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(lastEdge, 0.1f);
+    public bool GetIsFrozen()
+    {
+        return isFrozen;
     }
 }

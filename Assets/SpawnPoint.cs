@@ -32,10 +32,14 @@ public class SpawnPoint : MonoBehaviour
 
     private void Update()
     {
+        if (ObstacleMovement.GlobalFreeze && obstacleType == SpawnPointManager.ObstacleType.Log) return;
+
         if (nextSpawnTime <= Time.time)
         {
             if (CanSpawn())
             {
+                Debug.Log($"[{gameObject.name}] GlobalFreeze: {ObstacleMovement.GlobalFreeze}, CanSpawn: {CanSpawn()}");
+
                 SpawnObstacle(obstacleType);
             }
             nextSpawnTime = Time.time + spawnRate;
@@ -64,6 +68,11 @@ public class SpawnPoint : MonoBehaviour
     {
         // Get a random prefab for the specified obstacle type
         GameObject selectedPrefab = spawnPointManager.GetRandomPrefab(type);
+        if (selectedPrefab == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] No prefab found for type {type}!");
+            return;
+        }
         GameObject newObstacle = Instantiate(selectedPrefab, transform.position, Quaternion.identity);
 
         // Get the ObstacleMovement script for the new obstacle
@@ -79,6 +88,11 @@ public class SpawnPoint : MonoBehaviour
             if (movement.direction == Vector2.left) 
             {
                 newObstacle.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
+
+            if (ObstacleMovement.GlobalFreeze && newObstacle.CompareTag("OnWater"))
+            {
+                movement.Freeze();
             }
         }
         lastSpawnedObstacle = newObstacle;

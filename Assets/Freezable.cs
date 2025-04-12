@@ -19,7 +19,6 @@ public class Freezable : MonoBehaviour
 
     public void Unfreeze()
     {
-        storedVelocity = rb.linearVelocity;
-        rb.linearVelocity = Vector2.zero;
+        rb.linearVelocity = storedVelocity;
     }
 }

@@ -38,9 +38,35 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         NewGame();
-        player.ActivateInvincibility(7);
-        player.ActivateFreeze(10f);
+        //PowerUpCommand invincibility = new InvincibilityPowerUp();
+        //invincibility.Execute(player);
+        StartCoroutine(DelayedFreeze(10f, 5f));
     }
+
+    public void UnfreezeObstacles()
+    {
+        ObstacleMovement[] obstacles = Object.FindObjectsByType<ObstacleMovement>(FindObjectsSortMode.None);
+
+        foreach (var obstacle in obstacles)
+        {
+            if (obstacle.CompareTag("OnWater"))
+            {
+                obstacle.Unfreeze();
+            }
+        }
+
+        ObstacleMovement.GlobalFreeze = false;
+    }
+
+    private IEnumerator DelayedFreeze(float delay, float duration)
+    {
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Freeze begins");
+
+        PowerUpCommand freeze = new FreezePowerUp(duration);
+        freeze.Execute(player);
+    }
+
 
     private void NewGame()
     {
