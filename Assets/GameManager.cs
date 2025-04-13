@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using TMPro;
 
@@ -31,16 +31,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-    homes = Object.FindObjectsByType<Home>(FindObjectsSortMode.None);
-    player = FindFirstObjectByType<PlayerController>();
+        homes = Object.FindObjectsByType<Home>(FindObjectsSortMode.None);
+        player = FindFirstObjectByType<PlayerController>();
     }
 
     private void Start()
     {
         NewGame();
-        //PowerUpCommand invincibility = new InvincibilityPowerUp();
-        //invincibility.Execute(player);
-        StartCoroutine(DelayedFreeze(10f, 5f));
     }
 
     public void UnfreezeObstacles()
@@ -147,7 +144,7 @@ public class GameManager : MonoBehaviour
     {
         bool playAgain = false;
 
-        while (!playAgain) 
+        while (!playAgain)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -176,7 +173,7 @@ public class GameManager : MonoBehaviour
 
         int bonus = time * 20;
         SetScore(score + bonus + 50);
-       
+
         if (Cleared())
         {
             SetScore(score + 1000);
