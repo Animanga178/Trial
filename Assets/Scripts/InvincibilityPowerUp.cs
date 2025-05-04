@@ -23,6 +23,7 @@ public class InvincibilityPowerUp : PowerUpCommand
 
         player.SetInvincibility(true);
 
+        AudioManager.Instance.PlayPowerUpSound(PowerUpType.Invincibility);
         GameObject effect = Object.Instantiate(invincibilityEffect, player.transform.position, Quaternion.identity);
         Object.Destroy(effect, 0.5f);
 

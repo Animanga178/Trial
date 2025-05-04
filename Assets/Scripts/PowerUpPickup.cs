@@ -8,6 +8,7 @@ public class PowerUpPickup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.powerUpPickupSound);
             InventoryManager.Instance.AddPowerUp(powerUpName);
             Destroy(gameObject);
         }

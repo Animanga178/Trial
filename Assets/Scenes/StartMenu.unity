@@ -3412,6 +3412,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727758025}
   m_CullTransparentMesh: 1
+--- !u!1 &1749939134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1749939136}
+  - component: {fileID: 1749939135}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1749939135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749939134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9825687e0267bda408524a83e30d0b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leaderboardMusic: {fileID: 8300000, guid: 414e3f2f8716bf541bdc83d5593b280a, type: 3}
+  menuMusic: {fileID: 8300000, guid: 521b067748ec753438a4c10c53df49eb, type: 3}
+  leaderboardEntry: {fileID: 8300000, guid: ab3974ab212726f4ca813c577964fe4f, type: 3}
+  luckyDipPUsound: {fileID: 8300000, guid: 13fc56f562de42e42bc7d13399c0bb3e, type: 3}
+  invincibilityPUsound: {fileID: 8300000, guid: b063971025db0524eb84dda39f12476b, type: 3}
+  freezePUsound: {fileID: 8300000, guid: 213a817e3d91be5478e3aef71eaca0aa, type: 3}
+  powerUpPickupSound: {fileID: 8300000, guid: 963d7bda421531a4582b8e9f6a536d0c, type: 3}
+  leapSound: {fileID: 8300000, guid: c8df15eb71f52b74abd0542b6ea239e1, type: 3}
+  waterDeathSFX: {fileID: 8300000, guid: d8a205fb790e07c47bbcfc3447667d84, type: 3}
+  gameOverSFX: {fileID: 8300000, guid: 266d42a034f68b348ad393e689f23a7d, type: 3}
+  carHitSFX: {fileID: 8300000, guid: 7ac14e0f5618cff4eb356f757e08a950, type: 3}
+  timeDeathSFX: {fileID: 8300000, guid: 88a7ade09227bf14eb4c5e639eb2b910, type: 3}
+  respawnSFX: {fileID: 8300000, guid: b90ba4777fb02444d8013ab23ec60481, type: 3}
+--- !u!4 &1749939136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749939134}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836745976
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,6 +3753,10 @@ PrefabInstance:
       propertyPath: optionsPanel
       value: 
       objectReference: {fileID: 1912078445}
+    - target: {fileID: 6184890185521276247, guid: 552a44dc559838c4cbda24d45595fa7f, type: 3}
+      propertyPath: resumeButton
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7468684761288272128, guid: 552a44dc559838c4cbda24d45595fa7f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3908,3 +3969,4 @@ SceneRoots:
   - {fileID: 1767338240705984419}
   - {fileID: 2134618000637186997}
   - {fileID: 1441685318}
+  - {fileID: 1749939136}

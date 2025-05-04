@@ -21,6 +21,7 @@ public class LuckyDipPowerUp : PowerUpCommand
         {
             GameManager.Instance.SetLives(GameManager.Instance.lives + 1);
         }
+        AudioManager.Instance.PlayPowerUpSound(PowerUpType.LuckyDip);
         Effect(player);
     }
 

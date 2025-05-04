@@ -19,6 +19,7 @@ public class FreezePowerUp : PowerUpCommand
 
     private IEnumerator FreezeCoroutine(float duration)
     {
+        AudioManager.Instance.PlayPowerUpSound(PowerUpType.Freeze);
         ObstacleMovement.GlobalFreeze = true;
 
         ObstacleMovement[] obstacles = Object.FindObjectsByType<ObstacleMovement>(FindObjectsSortMode.None);

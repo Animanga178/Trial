@@ -7,6 +7,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject helpPanel;
 
+    private void Start()
+    {
+        AudioManager.Instance.PlayMusic(AudioManager.Instance.menuMusic);
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

@@ -138,6 +138,7 @@ public class PlayerController : MonoBehaviour
         if (transform.position.x < cameraController.LeftEdge - buffer ||
             transform.position.x > cameraController.RightEdge + buffer)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.carHitSFX);
             Death("Out of bounds");
         }
     }
@@ -193,6 +194,7 @@ public class PlayerController : MonoBehaviour
         // Trigger leap animation
         Transition(PlayerState.Leap);
         animator.SetTrigger("Leap");
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.leapSound);
 
         Vector3 destination = rb.position + new Vector2(direction.x, direction.y);
         Vector3 startPosition = rb.position;
@@ -212,6 +214,7 @@ public class PlayerController : MonoBehaviour
 
         if (isInWater && !isCollidingWithPlatform)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.waterDeathSFX);
             Death("Water");
         }
         else
@@ -258,6 +261,7 @@ public class PlayerController : MonoBehaviour
 
         if (isCollidingWithObstacle)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.carHitSFX);
             Death("Obstacle");
         }
 
@@ -300,6 +304,7 @@ public class PlayerController : MonoBehaviour
 
     public void Respawn()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.respawnSFX);
         GameManager.Instance.UnfreezeObstacles();
         StopAllCoroutines();
         transform.position = spawnPosition;

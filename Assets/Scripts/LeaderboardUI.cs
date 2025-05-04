@@ -11,6 +11,13 @@ public class LeaderboardUI : MonoBehaviour
     private void Start()
     {
         DisplayLeaderboard();
+
+        if (AudioManager.Instance != null)
+        {
+            Debug.Log("Current music clip: " + AudioManager.Instance?.GetCurrentClipName());
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.leaderboardMusic);
+        }
     }
 
     public void DisplayLeaderboard()

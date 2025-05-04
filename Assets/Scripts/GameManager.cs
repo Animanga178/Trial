@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI nextScoreText;
+    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject pauseButton;
 
     public int lives { get; private set; } = 3;
     public int score { get; private set; } = 0;
@@ -44,8 +46,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.StopMusic();
         currentPlayerName = PlayerPrefs.GetString("PlayerName", "???");
         UpdateNextScoreUI();
+    }
+
+    public void Pause()
+    {
+        pausePanel.SetActive(true);
+        pauseButton.SetActive(false);
+        Time.timeScale = 0f;
+    }
+
+    public void Resume()
+    {
+        pausePanel.SetActive(false);
+        pauseButton.SetActive(true);
+        Time.timeScale = 1f;
     }
 
     private void UpdateNextScoreUI()
@@ -59,6 +76,7 @@ public class GameManager : MonoBehaviour
             scoreText.color = Color.white;
             nextScoreText.color = Color.white;
             scoreFlashed = false;
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.leaderboardEntry);
         }
         else if (score >= nextTarget && nextTarget > 0)
         {
@@ -66,12 +84,14 @@ public class GameManager : MonoBehaviour
             StartCoroutine(FlashText(nextScoreText, Color.cyan));
             StartCoroutine(FlashText(scoreText, Color.cyan));
             scoreFlashed = true;
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.leaderboardEntry);
         }
         else
         {
             nextScoreText.text = "You're #1!";
             if (!scoreFlashed)
             {
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.leaderboardEntry);
                 StartCoroutine(FlashText(nextScoreText, Color.yellow));
                 scoreFlashed = true;
             }
@@ -159,6 +179,7 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.gameOverSFX);
         player.gameObject.SetActive(false);
         gameOverMenu.SetActive(true);
 
