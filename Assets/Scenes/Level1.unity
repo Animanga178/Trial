@@ -413,7 +413,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103310058}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 2da33805c6b0b2f4493415177000f637, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 5e83b83962ef0ab458a6adf081d8f34a, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -4107,7 +4107,7 @@ PrefabInstance:
     - target: {fileID: 2288173600947370646, guid: 6299f085f802f654190d72fd2cc6ffac, type: 3}
       propertyPath: homePlayer
       value: 
-      objectReference: {fileID: 1037471252}
+      objectReference: {fileID: 401163293}
     - target: {fileID: 3529824382232308718, guid: 6299f085f802f654190d72fd2cc6ffac, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -4733,11 +4733,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 1
---- !u!1 &1037471252 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3529824382232308718, guid: 6299f085f802f654190d72fd2cc6ffac, type: 3}
-  m_PrefabInstance: {fileID: 872994678}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1038204881
 GameObject:
   m_ObjectHideFlags: 0
@@ -5084,7 +5079,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingPanel: {fileID: 728088810}
-  gameManager: {fileID: 1676346792131945577}
 --- !u!4 &1189763244
 Transform:
   m_ObjectHideFlags: 0
@@ -6783,7 +6777,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696146272}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 92efb651990e9af44b525e5e8e946c1e, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 9ebc864a94788304c965dcd834e1334b, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -7626,7 +7620,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968524244}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: fdae1a3172445584089b488d4df6aea4, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: ad4fc9708d9e9984290495294c158f23, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}

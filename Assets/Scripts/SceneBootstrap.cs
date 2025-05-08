@@ -4,7 +4,7 @@ using UnityEngine;
 public class SceneBootstrap : MonoBehaviour
 {
     [SerializeField] private GameObject loadingPanel;
-    [SerializeField] private GameManager gameManager;
+    private GameManager gameManager;
 
     private void Start()
     {
@@ -19,6 +19,9 @@ public class SceneBootstrap : MonoBehaviour
     private IEnumerator StartGameDelay()
     {
         loadingPanel.SetActive(true);
+        yield return new WaitUntil(() => GameManager.Instance != null);
+
+        gameManager = GameManager.Instance;
         gameManager.NewGame();
 
         yield return new WaitForSeconds(3f);
