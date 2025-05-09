@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private InputAction moveAction;
     private CameraController cameraController;
     private Rigidbody2D obstacleRigidbody;
-
+    public BlackOutDebuff BlackOutDebuffInstance { get; set; }
 
     // State variables
     private Vector3 spawnPosition;
@@ -295,6 +295,7 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("Player died from: " + cause);
         GameManager.Instance.UnfreezeObstacles();
+        BlackOutDebuffInstance?.LightsOn();
         StopAllCoroutines();
         animator.SetTrigger("Death");
         Transition(PlayerState.Dead);
@@ -306,6 +307,7 @@ public class PlayerController : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.respawnSFX);
         GameManager.Instance.UnfreezeObstacles();
+        BlackOutDebuffInstance?.LightsOn();
         StopAllCoroutines();
         transform.position = spawnPosition;
         furthestRow = spawnPosition.y;

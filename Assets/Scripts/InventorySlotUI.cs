@@ -10,7 +10,7 @@ public class InventorySlotUI : MonoBehaviour
 
     public void UpdateSlot(int count)
     {
-        countText.text = count > 1 ? "" : count.ToString();
+        countText.text = count > 0 ? count.ToString() : "";
         canvasGroup.alpha = count == 0 ? 0.5f : 1f;
     }
 

@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
     {
         gameStarted = true;
 
-        gameOverMenu.SetActive(false);
+        //gameOverMenu.SetActive(false);
         SetScore(0);
         SetLives(3);
         NewLevel();

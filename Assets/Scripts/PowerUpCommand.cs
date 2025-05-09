@@ -9,5 +9,6 @@ public enum PowerUpType
 {
     Freeze,
     Invincibility,
-    LuckyDip
+    LuckyDip,
+    BlackOut
 }

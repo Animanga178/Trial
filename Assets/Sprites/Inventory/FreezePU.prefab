@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3201192223184310850}
   - component: {fileID: 7999164758358328337}
   - component: {fileID: 3078418667401137312}
+  - component: {fileID: 6054490625608944108}
   m_Layer: 0
   m_Name: FreezePU
   m_TagString: Untagged
@@ -134,3 +135,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6054490625608944108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9059913512761046379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf18bdf85cb09b41a8558857412c361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpType: 0

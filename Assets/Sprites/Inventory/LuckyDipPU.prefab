@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 927484938452826666}
   - component: {fileID: 4737362900605900652}
   - component: {fileID: 3072853619453462338}
+  - component: {fileID: 434129760747039623}
   m_Layer: 0
   m_Name: LuckyDipPU
   m_TagString: Untagged
@@ -134,3 +135,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &434129760747039623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6967719467682716372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf18bdf85cb09b41a8558857412c361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpType: 2
