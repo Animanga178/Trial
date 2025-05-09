@@ -7,6 +7,9 @@ public class LeaderboardUI : MonoBehaviour
 {
     [SerializeField] private Transform entryContainer;
     [SerializeField] private GameObject entryPrefab;
+    [SerializeField] private Sprite goldMedal;
+    [SerializeField] private Sprite silverMedal;
+    [SerializeField] private Sprite bronzeMedal;
 
     private void Start()
     {
@@ -33,6 +36,16 @@ public class LeaderboardUI : MonoBehaviour
         {
             GameObject item = Instantiate(entryPrefab, entryContainer);
             LeaderboardEntry entry = entries[i];
+            Image medalImage = item.transform.Find("Frame/MedalIcon").GetComponent<Image>();
+
+            if (i == 0)
+                medalImage.sprite = goldMedal;
+            else if (i < 5)
+                medalImage.sprite = silverMedal;
+            else if (i < 10)
+                medalImage.sprite = bronzeMedal;
+            else
+                medalImage.enabled = false;
 
             item.transform.Find("Frame/Rank").GetComponent<TextMeshProUGUI>().text = (i + 1).ToString();
             item.transform.Find("Frame/Name").GetComponent<TextMeshProUGUI>().text = entry.playerName;
