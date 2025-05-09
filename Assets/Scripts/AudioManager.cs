@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip luckyDipPUsound;
     public AudioClip invincibilityPUsound;
     public AudioClip freezePUsound;
+    public AudioClip blackOutPUsound;
 
     public AudioClip powerUpPickupSound;
     public AudioClip leapSound;
@@ -70,10 +71,11 @@ public class AudioManager : MonoBehaviour
     }
 
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioClip clip, float volume = 1f)
     {
-        if (clip != null) sfxSource.PlayOneShot(clip);
+        if (clip != null) sfxSource.PlayOneShot(clip, volume);
     }
+
 
     public void PlayPowerUpSound(PowerUpType type)
     {

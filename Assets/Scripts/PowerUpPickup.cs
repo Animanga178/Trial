@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class PowerUpPickup : MonoBehaviour
 {
@@ -9,15 +8,16 @@ public class PowerUpPickup : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.powerUpPickupSound);
         PlayerController player = other.GetComponent<PlayerController>();
 
         if (powerUpType == PowerUpType.BlackOut)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.blackOutPUsound, 2f);
             new BlackOutDebuff().Execute(player);
         }
         else
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.powerUpPickupSound);
             InventoryManager.Instance.AddPowerUp(powerUpType.ToString());
         }
         Destroy(gameObject);

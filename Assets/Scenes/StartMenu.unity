@@ -3447,6 +3447,7 @@ MonoBehaviour:
   luckyDipPUsound: {fileID: 8300000, guid: 13fc56f562de42e42bc7d13399c0bb3e, type: 3}
   invincibilityPUsound: {fileID: 8300000, guid: b063971025db0524eb84dda39f12476b, type: 3}
   freezePUsound: {fileID: 8300000, guid: 213a817e3d91be5478e3aef71eaca0aa, type: 3}
+  blackOutPUsound: {fileID: 8300000, guid: dfaa314a1b09b444fa82d0b50c8d4ce6, type: 3}
   powerUpPickupSound: {fileID: 8300000, guid: 963d7bda421531a4582b8e9f6a536d0c, type: 3}
   leapSound: {fileID: 8300000, guid: c8df15eb71f52b74abd0542b6ea239e1, type: 3}
   waterDeathSFX: {fileID: 8300000, guid: d8a205fb790e07c47bbcfc3447667d84, type: 3}
