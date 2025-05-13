@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TMPro;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI nextScoreText;
+    [SerializeField] private Animator rankUpAnimator;
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject pauseButton;
 
@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
             nextScoreText.text = $"Next Rank: {nextTarget}";
             StartCoroutine(FlashText(nextScoreText, Color.cyan));
             StartCoroutine(FlashText(scoreText, Color.cyan));
+            TriggerRankUpEffect();
             scoreFlashed = true;
             AudioManager.Instance.PlaySFX(AudioManager.Instance.leaderboardEntry);
         }
@@ -96,6 +97,11 @@ public class GameManager : MonoBehaviour
                 scoreFlashed = true;
             }
         }
+    }
+
+    private void TriggerRankUpEffect()
+    {
+        rankUpAnimator.SetTrigger("Play");
     }
 
     public void UnfreezeObstacles()
@@ -117,7 +123,7 @@ public class GameManager : MonoBehaviour
     {
         gameStarted = true;
 
-        //gameOverMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
         SetScore(0);
         SetLives(3);
         NewLevel();
@@ -243,7 +249,7 @@ public class GameManager : MonoBehaviour
         Color original = text.color;
         text.color = flashColor;
 
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.6f);
 
         text.color = original;
     }

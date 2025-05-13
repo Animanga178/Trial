@@ -3,26 +3,24 @@ using System.Collections;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
-public enum PlayerState { Idle, Leap, Dead }
-
 public class PlayerController : MonoBehaviour
 {
     // Movement settings
-    [SerializeField] private float timeStep = 0.2f;
+    public float timeStep = 0.2f;
     [SerializeField] private float leapDuration = 0.125f;
 
     // References
     private Animator animator;
     private Rigidbody2D rb;
-    private InputAction moveAction;
-    private CameraController cameraController;
+    public InputAction moveAction;
+    public CameraController cameraController;
     private Rigidbody2D obstacleRigidbody;
     public BlackOutDebuff BlackOutDebuffInstance { get; set; }
 
     // State variables
     private Vector3 spawnPosition;
-    private Vector2 direction = Vector2.zero;
-    private float timeSinceLastStep = 0f;
+    public Vector2 direction = Vector2.zero;
+    public float timeSinceLastStep = 0f;
     private float furthestRow;
     public static LayerMask barrierLayer;
     private bool isCollidingWithBarrier = false;
@@ -31,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private bool isCollidingWithWater = false;
     private bool isInWater = false;
     private bool isInvincible = false;
-    private PlayerState currentState;
+    private PlayerBaseState currentState;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -47,7 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         moveAction = InputSystem.actions.FindAction("Move");
         cameraController = GameObject.FindFirstObjectByType<CameraController>();
-        Transition(PlayerState.Idle);
+        SetState(new IdleState(this));
     }
 
     public void SetInvincibility(bool value)
@@ -83,69 +81,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        switch (currentState)
-        {
-            case PlayerState.Idle:
-                HandleIdleState();
-                CheckOutOfBounds();
-                break;
-        }   
-    }
-
-    private void HandleIdleState()
-    {
-        Vector2 newDirection = moveAction.ReadValue<Vector2>();
-
-        // Normalize diagonal movement
-        if (newDirection.x != 0 && newDirection.y != 0)
-        {
-            newDirection.y = 1;
-        }
-        direction = newDirection;
-
-        // Update direction
-        if (direction.x < 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (direction.x > 0)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-
-        // Update movement
-        timeSinceLastStep += Time.deltaTime;
-
-        if (timeSinceLastStep >= timeStep && direction != Vector2.zero)
-        {
-            timeSinceLastStep = 0f;
-
-            if (direction.y < 0 && transform.position.y < cameraController.BottomEdge + 1f)
-            {
-                return;
-            }
-
-            Move(direction);
-        }
-    }
-
-    private void CheckOutOfBounds()
-    {
-        float buffer = 0.1f;
-
-        if (transform.position.x < cameraController.LeftEdge - buffer ||
-            transform.position.x > cameraController.RightEdge + buffer)
-        {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.carHitSFX);
-            Death("Out of bounds");
-        }
-    }
-
     public void Move(Vector2 direction)
     {
-        if (currentState == PlayerState.Dead || currentState == PlayerState.Leap) return;
+        if (currentState is DeadState || currentState is LeapState) return;
 
         if (isCollidingWithBarrier)
         {
@@ -191,8 +129,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Leap(Vector2 direction)
     {
-        // Trigger leap animation
-        Transition(PlayerState.Leap);
+        SetState(new LeapState(this));
         animator.SetTrigger("Leap");
         AudioManager.Instance.PlaySFX(AudioManager.Instance.leapSound);
 
@@ -219,13 +156,20 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Transition(PlayerState.Idle);
+            SetState(new IdleState(this));
         }
     }
 
-    private void Transition(PlayerState newState)
+    private void SetState(PlayerBaseState newState)
     {
+        currentState?.Exit();
         currentState = newState;
+        currentState?.Enter();
+    }
+
+    private void Update()
+    {
+        currentState?.Update();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -291,14 +235,14 @@ public class PlayerController : MonoBehaviour
 
     public void Death(string cause)
     {
-        if (currentState == PlayerState.Dead || isInvincible) return;
+        if (currentState is DeadState || isInvincible) return;
 
         Debug.Log("Player died from: " + cause);
         GameManager.Instance.UnfreezeObstacles();
         BlackOutDebuffInstance?.LightsOn();
         StopAllCoroutines();
         animator.SetTrigger("Death");
-        Transition(PlayerState.Dead);
+        SetState(newState: new DeadState(this));
 
         GameManager.Instance.PlayerDeath();
     }
@@ -312,6 +256,6 @@ public class PlayerController : MonoBehaviour
         transform.position = spawnPosition;
         furthestRow = spawnPosition.y;
         gameObject.SetActive(true);
-        Transition(PlayerState.Idle);
+        SetState(new IdleState(this));
     }
 }
