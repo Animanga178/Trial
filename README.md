@@ -46,8 +46,9 @@ Key info:
 To run this project on your local machine:
 
 1. Clone the Repository
-
-`https://github.com/Animanga178/Trial.git`
+```bash
+git clone https://github.com/Animanga178/Trial.git
+```
    
 2. Open in Unity
    
