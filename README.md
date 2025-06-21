@@ -47,7 +47,7 @@ To run this project on your local machine:
 
 1. Clone the Repository
 
-`git clone https://github.com/yourusername/frogger-game.git`
+`https://github.com/Animanga178/Trial.git`
    
 2. Open in Unity
    
