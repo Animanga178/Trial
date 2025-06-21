@@ -1,4 +1,11 @@
-# Frogger Game via Unity
+
+<h1 align="center">
+  <br>
+  <a href="https://en.wikipedia.org/wiki/Unity_%28game_engine%29"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Unity_2021.svg/1024px-Unity_2021.svg.png" alt="Unity" width="200"></a>
+  <br>
+  Frogger Game
+  <br>
+</h1>
 
 ...
 ## A coursework-based single-level Frogger clone with power-ups and leaderboard tracking.
